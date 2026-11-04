@@ -1,18 +1,20 @@
 package games.finn.dualstarters;
 
 import com.mojang.logging.LogUtils;
-import games.finn.dualstarters.net.DualSelectStartersPacket;
+import games.finn.dualstarters.net.SelectStartersPacket;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.slf4j.Logger;
 
 /**
- * Dual Starters - a Cobblemon add-on that lets brand-new players pick TWO
- * starter Pokemon at once from the normal starter flow.
+ * Dual Starters - a Cobblemon add-on that lets brand-new players pick several
+ * starter Pokemon at once from the normal starter flow. The count is a server-authoritative
+ * config ({@link Config#STARTER_COUNT}, clamped 1-6, default 2).
  *
  * <p>The value here must match the modId in {@code neoforge.mods.toml}.</p>
  */
@@ -22,18 +24,21 @@ public class DualStarters {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public DualStarters(IEventBus modEventBus, ModContainer modContainer) {
-        LOGGER.info("[Dual Starters] loading - two-starter Cobblemon add-on");
+        LOGGER.info("[Dual Starters] loading - configurable multi-starter Cobblemon add-on");
+        // SERVER config type: values live per-world/per-server and are synced to every
+        // connecting client, so the starter count a client can submit is always the server's.
+        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC);
         modEventBus.addListener(DualStarters::registerPayloads);
     }
 
     private static void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
-        // Client -> server: the player's two picks from the dual picker screen.
+        // Client -> server: the player's starter picks from the picker screen.
         registrar.playToServer(
-                DualSelectStartersPacket.TYPE,
-                DualSelectStartersPacket.STREAM_CODEC,
-                DualStarterGrantHandler::handle
+                SelectStartersPacket.TYPE,
+                SelectStartersPacket.STREAM_CODEC,
+                StarterGrantHandler::handle
         );
-        LOGGER.info("[Dual Starters] registered dual-starter selection packet");
+        LOGGER.info("[Dual Starters] registered starter selection packet");
     }
 }

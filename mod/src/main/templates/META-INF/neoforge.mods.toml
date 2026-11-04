@@ -46,7 +46,8 @@ displayName="${mod_name}" #mandatory
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-A Cobblemon add-on: brand-new players pick two starter Pokemon at once from the normal starter flow.
+A Cobblemon add-on: brand-new players pick several starter Pokemon at once (server-configurable
+count, 1-6, default 2) from the normal starter flow.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.

@@ -1,6 +1,12 @@
 {
-  "dualstarters.screen.title": "Choose Your Two Starters",
-  "dualstarters.screen.slot1": "First Starter",
-  "dualstarters.screen.slot2": "Second Starter",
-  "dualstarters.screen.confirm": "Confirm your team"
+  "dualstarters.screen.title": "Choose Your Starters",
+  "dualstarters.screen.category_counter": "%s (%s/%s)",
+  "dualstarters.screen.slot": "Slot %s",
+  "dualstarters.screen.slot_empty": "- empty -",
+  "dualstarters.screen.choose": "I choose you!",
+  "dualstarters.screen.remove": "Remove",
+  "dualstarters.screen.confirm": "Confirm your team",
+  "dualstarters.screen.close": "Close",
+  "dualstarters.screen.no_starters": "No starters are configured.",
+  "dualstarters.config.starter_count": "Number of starters a new player chooses (1-6)"
 }
