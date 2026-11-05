@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.config.starter.StarterCategory;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
 import games.finn.dualstarters.net.SelectStartersPacket;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -73,20 +74,29 @@ public final class StarterGrantHandler {
 
         List<StarterCategory> starterList = Cobblemon.INSTANCE.getStarterHandler().getStarterList(player);
 
-        // Roll every pick before granting any of them: one invalid pick invalidates the whole
-        // submission (no partial grants). Each roll() call is an independent create(), so picking
-        // the same species more than once still yields separately-rolled Pokemon.
-        List<Pokemon> rolled = new ArrayList<>(picks.size());
+        // Resolve every submitted entry before creating or granting anything. Rules are evaluated
+        // against the configured PokemonProperties, so ball/nature/level/etc. never become a
+        // duplicate-bypass. One invalid pick invalidates the entire transaction.
+        StarterSelectionRules rules = StarterSelectionRules.fromConfig();
+        List<PokemonProperties> resolved = new ArrayList<>(picks.size());
         for (SelectStartersPacket.Pick pick : picks) {
-            Pokemon mon = roll(starterList, pick.category(), pick.index(), player);
-            if (mon == null) {
-                DualStarters.LOGGER.warn("[Dual Starters] invalid pick from {}: [{}#{}]; granting nothing.",
+            PokemonProperties properties = resolve(starterList, pick.category(), pick.index(), resolved, rules);
+            if (properties == null) {
+                DualStarters.LOGGER.warn("[Dual Starters] invalid or rule-violating pick from {}: [{}#{}]; granting nothing.",
                         player.getGameProfile().getName(), pick.category(), pick.index());
+                player.displayClientMessage(Component.literal(
+                        "Starter selection rejected: a pick is invalid or violates a duplicate/group limit. Undo it and try again."), true);
                 return false;
             }
-            rolled.add(mon);
+            resolved.add(properties);
         }
 
+        // Only now create the Pokemon. This keeps failed submissions atomic: validation cannot
+        // leave a partial starter team behind.
+        List<Pokemon> rolled = new ArrayList<>(resolved.size());
+        for (PokemonProperties properties : resolved) {
+            rolled.add(properties.create(player));
+        }
         PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(player);
         for (Pokemon mon : rolled) {
             party.add(mon);
@@ -113,7 +123,9 @@ public final class StarterGrantHandler {
      * index == category size means "random within that category" (Cobblemon convention).
      * Returns null for an invalid pick (unknown category or out-of-range index).
      */
-    private static Pokemon roll(List<StarterCategory> starterList, String categoryName, int index, ServerPlayer player) {
+    private static PokemonProperties resolve(List<StarterCategory> starterList, String categoryName, int index,
+                                             List<PokemonProperties> alreadyResolved,
+                                             StarterSelectionRules rules) {
         StarterCategory category = null;
         for (StarterCategory c : starterList) {
             if (c.getName().equals(categoryName)) {
@@ -128,15 +140,19 @@ public final class StarterGrantHandler {
         if (index < 0 || index > pokemon.size()) {
             return null;
         }
-        PokemonProperties properties;
         if (index == pokemon.size()) {
-            if (pokemon.isEmpty()) {
+            if (pokemon.isEmpty() || !category.getRandomStarter()) {
                 return null;
             }
-            properties = pokemon.get((int) (Math.random() * pokemon.size()));
-        } else {
-            properties = pokemon.get(index);
+            // Filter the finite configured category once, then roll from eligible entries. This
+            // makes random picks respect every rule without a retry loop or accidental bypass.
+            List<? extends PokemonProperties> compatible = rules.compatibleCandidates(pokemon, alreadyResolved);
+            if (compatible.isEmpty()) {
+                return null;
+            }
+            return compatible.get((int) (Math.random() * compatible.size()));
         }
-        return properties.create(player);
+        PokemonProperties properties = pokemon.get(index);
+        return rules.isValid(alreadyResolved, properties) ? properties : null;
     }
 }

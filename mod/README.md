@@ -32,12 +32,34 @@ Cobblemon reads `config/cobblemon/starters.json` only when `config/cobblemon/mai
 
 The supplied `starters.json` must also set `"useConfigStarters": true`. On multiplayer, the dedicated server is authoritative; client-side copies do not change the offered starters.
 
-The starter count belongs in the world's server config:
+The starter count and selection rules belong in the world's server config:
 
 ```toml
 # world/serverconfig/dualstarters-server.toml
 starterCount = 2
+
+# Blocks repeats of the same species + form/aspects/region_bias, while allowing
+# intentional regional alternatives such as standard Cyndaquil and
+# `Cyndaquil region_bias=hisui`.
+duplicateIdentity = "SPECIES_AND_VARIANT"
 ```
+
+### Selection rules
+
+`duplicateIdentity` accepts exactly three values:
+
+- `SPECIES_AND_VARIANT` (default): blocks the same species, form/aspects, and regional bias from being selected twice. It intentionally ignores ball, nature, level, moves, IVs, and shiny settings, so those cannot bypass the rule.
+- `SPECIES`: blocks any repeat of a species, including differently configured forms.
+- `DISABLED`: permits repeated selections.
+
+The `[exclusivityGroups]` section contains **three independently editable selection groups**. Each has an `enabled` flag, a `max` cap, and a `species` list. Only enabled groups impose a cap, and a species can belong to more than one active group.
+
+- `pseudoLegendaries` is enabled by default with `max = 1`. Its list contains Dratini, Larvitar, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, and Frigibax.
+- `fanFavorites` is a disabled example using Pikachu and Eevee.
+- `traditionalStarters` is a disabled example using Bulbasaur, Charmander, and Squirtle.
+
+Edit any existing group’s `enabled`, `max`, and `species` values to fit your server. The three supplied groups are deliberately well-commented templates; additional named groups require a mod update, rather than silently accepting a TOML section the current release cannot enforce. Group matching is species-based, so regional variants still consume the same pool cap—for example, regular and Hisuian-flavoured Goomy both count against the pseudo-legendary limit. The server resolves and validates every selection atomically, including Random choices; a random choice is drawn only from entries that remain legal under the configured rules.
+
 
 ## Development
 
