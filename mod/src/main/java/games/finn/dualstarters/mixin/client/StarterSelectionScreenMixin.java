@@ -82,8 +82,10 @@ public abstract class StarterSelectionScreenMixin extends Screen {
     @Unique private static final int DUALSTARTERS$DETAIL_LINE = 7;
     /** 0.5-scale text, so the raw-width budget is twice the ~70px of strip available. */
     @Unique private static final int DUALSTARTERS$DETAIL_MAX = 140;
-    /** The native category list ends at y + 172; this sits immediately below it. */
-    @Unique private static final int DUALSTARTERS$FEEDBACK_Y = 172;
+    /** Center of Cobblemon's native Pokemon preview viewport. */
+    @Unique private static final int DUALSTARTERS$PREVIEW_CENTER_X = 65;
+    /** Top of the preview viewport, below the native name / dex-number chrome. */
+    @Unique private static final int DUALSTARTERS$FEEDBACK_Y = 22;
 
     @Shadow @Final private List<RenderableStarterCategory> categories;
     @Shadow private int currentSelection;
@@ -187,10 +189,12 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         String violation = this.dualstarters$currentViolation();
         if (violation != null) {
             int colour = "Selected".equals(violation) ? 0xFF79E38A : 0xFFFFA0A0;
-            // This is the same 1.0 text scale used by the native-style Confirm label, placed below
-            // the scrolling category menu instead of over Cobblemon's Pokemon description.
-            NativeGui.text(context, null, Component.literal(violation), x + 182, y + DUALSTARTERS$FEEDBACK_Y,
-                    1.0F, 90, colour, true, true);
+            // Keep feedback inside the upper preview viewport: visible while browsing, clear of
+            // the native description, category list, and the Ball/Nature footer. The compact
+            // scale accommodates messages such as "Pseudo-Legendary limit reached" without spill.
+            NativeGui.text(context, null, Component.literal(violation),
+                    x + DUALSTARTERS$PREVIEW_CENTER_X, y + DUALSTARTERS$FEEDBACK_Y,
+                    0.65F, 180, colour, true, true);
         }
 
         // Ball/nature are whatever the server said the configured PokemonProperties hold; an empty
