@@ -1,4 +1,4 @@
-package games.finn.dualstarters.mixin.client;
+package games.finn.cobblemonflexiblestarters.mixin.client;
 
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen;
 import com.cobblemon.mod.common.client.gui.startselection.widgets.CategoryList;
@@ -11,5 +11,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface CategoryListAccessor {
 
     @Accessor("starterSelectionScreen")
-    StarterSelectionScreen dualstarters$getStarterSelectionScreen();
+    StarterSelectionScreen cobblemonFlexibleStarters$getStarterSelectionScreen();
 }

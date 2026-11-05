@@ -1,9 +1,9 @@
-package games.finn.dualstarters.net;
+package games.finn.cobblemonflexiblestarters.net;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import games.finn.dualstarters.DualStarters;
+import games.finn.cobblemonflexiblestarters.CobblemonFlexibleStarters;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
  * <p>The list is hard-capped at {@link #MAX_PICKS} entries at the codec level, so a malformed or
  * hostile payload claiming a larger count is rejected during decode rather than ever reaching
  * handler logic. The server additionally verifies the list size matches the configured
- * {@link games.finn.dualstarters.Config#starterCount()} before granting anything.</p>
+ * {@link games.finn.cobblemonflexiblestarters.Config#starterCount()} before granting anything.</p>
  */
 public record SelectStartersPacket(List<Pick> picks) implements CustomPacketPayload {
 
@@ -32,7 +32,7 @@ public record SelectStartersPacket(List<Pick> picks) implements CustomPacketPayl
     public record Pick(String category, int index) {}
 
     public static final Type<SelectStartersPacket> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(DualStarters.MODID, "select_starters"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(CobblemonFlexibleStarters.MODID, "select_starters"));
 
     private static final StreamCodec<RegistryFriendlyByteBuf, Pick> PICK_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, Pick::category,

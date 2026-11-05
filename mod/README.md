@@ -35,7 +35,7 @@ The supplied `starters.json` must also set `"useConfigStarters": true`. On multi
 The starter count and selection rules belong in the world's server config:
 
 ```toml
-# world/serverconfig/dualstarters-server.toml
+# world/serverconfig/cobblemon-flexible-starters-server.toml
 starterCount = 2
 
 # Blocks repeats of the same species + form/aspects/region_bias, while allowing
@@ -68,7 +68,7 @@ cd mod
 bash ./gradlew clean build --no-daemon --no-build-cache
 ```
 
-The built JAR is written to `mod/build/libs/dualstarters-0.3.0.jar`.
+The built JAR is written to `mod/build/libs/cobblemon-flexible-starters-0.3.0.jar`.
 
 ## Acknowledgments
 

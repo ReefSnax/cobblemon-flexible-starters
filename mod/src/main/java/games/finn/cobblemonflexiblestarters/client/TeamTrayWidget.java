@@ -1,4 +1,4 @@
-package games.finn.dualstarters.client;
+package games.finn.cobblemonflexiblestarters.client;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -103,7 +103,7 @@ public class TeamTrayWidget extends AbstractWidget implements CobblemonRenderabl
 
         NativeGui.blitTwoSlice(pose, HEADER, x, y, HEADER_H, WIDTH, 0, CONTAINER_TEX_W, HEADER_H, 1.0F);
         NativeGui.text(context, null,
-                TextKt.bold(Component.translatable("dualstarters.screen.team",
+                TextKt.bold(Component.translatable("cobblemon_flexible_starters.screen.team",
                         chosen.size(), this.max)),
                 x + WIDTH / 2.0, y + 2.0, 0.5F, (WIDTH - 4) * 2, NativeGui.WHITE, true, true);
 

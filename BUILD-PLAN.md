@@ -39,7 +39,7 @@ only. Always 2, no config. Match the normal Cobblemon starter screen's look. No 
   Do NOT fire-and-forget: hand a spec + DoD and track progress.
 
 ## Steps
-1. Scaffold NeoForge 1.21.1 MDK; set modid `dualstarters`, JDK 21 toolchain.
+1. Scaffold NeoForge 1.21.1 MDK; set modid `cobblemon_flexible_starters`, JDK 21 toolchain.
 2. Add Cobblemon 1.8.0 (NeoForge) as a `compileOnly`/`modImplementation` dep from Cobblemon's maven;
    confirm it resolves + the dev client launches with Cobblemon loaded.
 3. Read Cobblemon 1.8.0 starter source + the reference mod -> decide API-hook vs Mixin.

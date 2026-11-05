@@ -1,6 +1,6 @@
-package games.finn.dualstarters.client;
+package games.finn.cobblemonflexiblestarters.client;
 
-import games.finn.dualstarters.net.StarterDetailsPacket;
+import games.finn.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 

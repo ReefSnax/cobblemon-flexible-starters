@@ -17,8 +17,8 @@ The add-on is required on both the client and server. It is a separate mod; do n
 ## Install
 
 1. Ensure the client and dedicated server use matching Minecraft, NeoForge, and Cobblemon versions.
-2. Put `dualstarters-0.3.0.jar` in each side's `mods/` directory.
-3. Do not retain older `dualstarters-*.jar` builds alongside it; only one copy of the mod should be installed.
+2. Put `cobblemon-flexible-starters-0.3.0.jar` in each side's `mods/` directory.
+3. Do not retain older `cobblemon-flexible-starters-*.jar` builds alongside it; only one copy of the mod should be installed.
 4. Fully restart the server and clients.
 
 ## Configure custom starter categories
@@ -55,7 +55,7 @@ In single-player, the integrated server reads the instance's `config/cobblemon/`
 After the server has started once, edit:
 
 ```text
-world/serverconfig/dualstarters-server.toml
+world/serverconfig/cobblemon-flexible-starters-server.toml
 ```
 
 Set:

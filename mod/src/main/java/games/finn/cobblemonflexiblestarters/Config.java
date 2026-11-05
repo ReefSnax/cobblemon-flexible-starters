@@ -1,12 +1,12 @@
-package games.finn.dualstarters;
+package games.finn.cobblemonflexiblestarters;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import games.finn.dualstarters.StarterSelectionRules.DuplicateIdentityMode;
-import games.finn.dualstarters.StarterSelectionRules.Group;
+import games.finn.cobblemonflexiblestarters.StarterSelectionRules.DuplicateIdentityMode;
+import games.finn.cobblemonflexiblestarters.StarterSelectionRules.Group;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
@@ -47,7 +47,7 @@ public final class Config {
         STARTER_COUNT = builder
                 .comment("Number of starter Pokemon a new player chooses at once (clamped 1-6).",
                         "This is a server-authoritative value: it is synced to every connecting client.")
-                .translation("dualstarters.config.starter_count")
+                .translation("cobblemon_flexible_starters.config.starter_count")
                 .defineInRange("starterCount", 2, 1, 6);
 
         DUPLICATE_IDENTITY = builder
@@ -60,7 +60,7 @@ public final class Config {
                         "                         starter-line biases of the same species may both be picked",
                         "  DISABLED             - duplicate picks are always allowed.",
                         "This is independent of the exclusivity groups below.")
-                .translation("dualstarters.config.duplicate_identity")
+                .translation("cobblemon_flexible_starters.config.duplicate_identity")
                 .defineEnum("duplicateIdentity", DuplicateIdentityMode.SPECIES_AND_VARIANT);
 
         builder.comment("Exclusivity groups: named caps on how many starters from a given species",
@@ -75,17 +75,17 @@ public final class Config {
                 .push("pseudoLegendaries");
         PSEUDO_LEGENDARIES_ENABLED = builder
                 .comment("Whether this group is enforced.")
-                .translation("dualstarters.config.group.pseudo_legendaries.enabled")
+                .translation("cobblemon_flexible_starters.config.group.pseudo_legendaries.enabled")
                 .define("enabled", true);
         PSEUDO_LEGENDARIES_MAX = builder
                 .comment("Maximum number of these species a submission may contain.")
-                .translation("dualstarters.config.group.pseudo_legendaries.max")
+                .translation("cobblemon_flexible_starters.config.group.pseudo_legendaries.max")
                 .defineInRange("max", 1, 1, 6);
         PSEUDO_LEGENDARIES_SPECIES = builder
                 .comment("The active pseudo-legendary example pool. Edit this list freely; group limits",
                         "match base species regardless of regional form or aspect. The default list is",
                         "Dratini, Larvitar, Bagon, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, and Frigibax.")
-                .translation("dualstarters.config.group.pseudo_legendaries.species")
+                .translation("cobblemon_flexible_starters.config.group.pseudo_legendaries.species")
                 .defineList("species", List.of(
                         "dratini", "larvitar", "bagon", "beldum", "gible", "deino",
                         "goomy", "jangmo-o", "dreepy", "frigibax"
@@ -97,15 +97,15 @@ public final class Config {
                 .push("fanFavorites");
         FAN_FAVORITES_ENABLED = builder
                 .comment("Whether this group is enforced.")
-                .translation("dualstarters.config.group.fan_favorites.enabled")
+                .translation("cobblemon_flexible_starters.config.group.fan_favorites.enabled")
                 .define("enabled", false);
         FAN_FAVORITES_MAX = builder
                 .comment("Maximum number of these species a submission may contain.")
-                .translation("dualstarters.config.group.fan_favorites.max")
+                .translation("cobblemon_flexible_starters.config.group.fan_favorites.max")
                 .defineInRange("max", 1, 1, 6);
         FAN_FAVORITES_SPECIES = builder
                 .comment("Example species list for this group.")
-                .translation("dualstarters.config.group.fan_favorites.species")
+                .translation("cobblemon_flexible_starters.config.group.fan_favorites.species")
                 .defineList("species", List.of("pikachu", "eevee"), o -> o instanceof String);
         builder.pop();
 
@@ -115,15 +115,15 @@ public final class Config {
                 .push("traditionalStarters");
         TRADITIONAL_STARTERS_ENABLED = builder
                 .comment("Whether this group is enforced.")
-                .translation("dualstarters.config.group.traditional_starters.enabled")
+                .translation("cobblemon_flexible_starters.config.group.traditional_starters.enabled")
                 .define("enabled", false);
         TRADITIONAL_STARTERS_MAX = builder
                 .comment("Maximum number of these species a submission may contain.")
-                .translation("dualstarters.config.group.traditional_starters.max")
+                .translation("cobblemon_flexible_starters.config.group.traditional_starters.max")
                 .defineInRange("max", 1, 1, 6);
         TRADITIONAL_STARTERS_SPECIES = builder
                 .comment("Example species list for this group (generation I starters).")
-                .translation("dualstarters.config.group.traditional_starters.species")
+                .translation("cobblemon_flexible_starters.config.group.traditional_starters.species")
                 .defineList("species", List.of("bulbasaur", "charmander", "squirtle"), o -> o instanceof String);
         builder.pop();
 

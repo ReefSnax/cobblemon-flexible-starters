@@ -1,4 +1,4 @@
-package games.finn.dualstarters.client;
+package games.finn.cobblemonflexiblestarters.client;
 
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;

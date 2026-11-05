@@ -1,11 +1,11 @@
-package games.finn.dualstarters.mixin.client;
+package games.finn.cobblemonflexiblestarters.mixin.client;
 
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen;
 import com.cobblemon.mod.common.client.gui.startselection.widgets.CategoryList;
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory;
 
-import games.finn.dualstarters.client.StarterSelectionState;
+import games.finn.cobblemonflexiblestarters.client.StarterSelectionState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
@@ -22,20 +22,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class CategoryEntryMixin {
 
     private static final ResourceLocation SELECTED_SLOT =
-            ResourceLocation.fromNamespaceAndPath("dualstarters",
+            ResourceLocation.fromNamespaceAndPath("cobblemon_flexible_starters",
                     "textures/gui/starterselection/starter_selection_selected.png");
     private static final ResourceLocation GROUP_BLOCKED_SLOT =
-            ResourceLocation.fromNamespaceAndPath("dualstarters",
+            ResourceLocation.fromNamespaceAndPath("cobblemon_flexible_starters",
                     "textures/gui/starterselection/starter_selection_group_blocked.png");
 
     @Shadow @Final private RenderableStarterCategory category;
     @Shadow @Final private CategoryList this$0;
-    @Unique private int dualstarters$renderSlotIndex;
+    @Unique private int cobblemonFlexibleStarters$renderSlotIndex;
 
     @Inject(method = "render", at = @At("HEAD"), remap = false)
-    private void dualstarters$resetSlotIndex(GuiGraphics graphics, int entryIndex, int rowTop, int rowLeft,
+    private void cobblemonFlexibleStarters$resetSlotIndex(GuiGraphics graphics, int entryIndex, int rowTop, int rowLeft,
                                              int rowWidth, int rowHeight, float delta, CallbackInfo ci) {
-        this.dualstarters$renderSlotIndex = 0;
+        this.cobblemonFlexibleStarters$renderSlotIndex = 0;
     }
 
     /**
@@ -54,10 +54,10 @@ public class CategoryEntryMixin {
             index = 1,
             remap = false
     )
-    private ResourceLocation dualstarters$slotPlate(ResourceLocation vanillaPlate) {
+    private ResourceLocation cobblemonFlexibleStarters$slotPlate(ResourceLocation vanillaPlate) {
         StarterSelectionScreen screen = ((CategoryListAccessor) (Object) this.this$0)
-                .dualstarters$getStarterSelectionScreen();
-        int index = this.dualstarters$renderSlotIndex++;
+                .cobblemonFlexibleStarters$getStarterSelectionScreen();
+        int index = this.cobblemonFlexibleStarters$renderSlotIndex++;
         // The active blue selection has absolute visual priority, including when it is already in
         // the tray or would otherwise be blocked by a cap.
         if (screen.getCurrentCategory() == this.category && screen.getCurrentSelection() == index) {

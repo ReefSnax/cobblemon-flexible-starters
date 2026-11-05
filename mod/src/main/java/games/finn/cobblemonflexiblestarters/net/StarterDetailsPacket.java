@@ -1,9 +1,9 @@
-package games.finn.dualstarters.net;
+package games.finn.cobblemonflexiblestarters.net;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import games.finn.dualstarters.DualStarters;
+import games.finn.cobblemonflexiblestarters.CobblemonFlexibleStarters;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -34,7 +34,7 @@ public record StarterDetailsPacket(List<Entry> entries) implements CustomPacketP
     public record Entry(String category, int index, String ball, String nature) {}
 
     public static final Type<StarterDetailsPacket> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(DualStarters.MODID, "starter_details"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(CobblemonFlexibleStarters.MODID, "starter_details"));
 
     private static final StreamCodec<RegistryFriendlyByteBuf, Entry> ENTRY_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, Entry::category,

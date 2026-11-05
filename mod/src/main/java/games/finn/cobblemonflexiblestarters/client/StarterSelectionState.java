@@ -1,4 +1,4 @@
-package games.finn.dualstarters.client;
+package games.finn.cobblemonflexiblestarters.client;
 
 import java.util.List;
 import java.util.Locale;
@@ -9,9 +9,9 @@ import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 
-import games.finn.dualstarters.Config;
-import games.finn.dualstarters.StarterSelectionRules.DuplicateIdentityMode;
-import games.finn.dualstarters.StarterSelectionRules.Group;
+import games.finn.cobblemonflexiblestarters.Config;
+import games.finn.cobblemonflexiblestarters.StarterSelectionRules.DuplicateIdentityMode;
+import games.finn.cobblemonflexiblestarters.StarterSelectionRules.Group;
 
 /**
  * A small client-only mirror of the starter tray for native category-list rendering.

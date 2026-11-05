@@ -1,4 +1,4 @@
-package games.finn.dualstarters.mixin;
+package games.finn.cobblemonflexiblestarters.mixin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData;
 import com.cobblemon.mod.common.config.starter.StarterCategory;
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler;
 
-import games.finn.dualstarters.StarterGrantHandler;
-import games.finn.dualstarters.net.StarterDetailsPacket;
+import games.finn.cobblemonflexiblestarters.StarterGrantHandler;
+import games.finn.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,7 +44,7 @@ public class StarterHandlerMixin {
             at = @At("TAIL"),
             remap = false
     )
-    private void dualstarters$sendDetails(ServerPlayer player, CallbackInfo ci) {
+    private void cobblemonFlexibleStarters$sendDetails(ServerPlayer player, CallbackInfo ci) {
         GeneralPlayerData data = Cobblemon.INSTANCE.getPlayerDataManager().getGenericData(player);
         if (!StarterGrantHandler.isNewPlayer(data)) {
             // Cobblemon itself didn't send OpenStarterUIPacket in this case; nothing to detail.

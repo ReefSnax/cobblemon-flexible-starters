@@ -1,4 +1,4 @@
-package games.finn.dualstarters.mixin.client;
+package games.finn.cobblemonflexiblestarters.mixin.client;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class CategoryListMixin {
             at = @At("RETURN"),
             remap = false
     )
-    private void dualstarters$fixRandomStarterRow(int paneWidth, int paneHeight,
+    private void cobblemonFlexibleStarters$fixRandomStarterRow(int paneWidth, int paneHeight,
                                                   List<RenderableStarterCategory> categories,
                                                   int listX, int listY, Minecraft minecraft,
                                                   StarterSelectionScreen screen, CallbackInfo ci) {

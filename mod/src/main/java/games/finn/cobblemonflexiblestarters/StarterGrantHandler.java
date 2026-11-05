@@ -1,4 +1,4 @@
-package games.finn.dualstarters;
+package games.finn.cobblemonflexiblestarters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreTypes
 import com.cobblemon.mod.common.config.starter.StarterCategory;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import games.finn.dualstarters.net.SelectStartersPacket;
+import games.finn.cobblemonflexiblestarters.net.SelectStartersPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -54,7 +54,7 @@ public final class StarterGrantHandler {
 
         // --- New-player gate (authoritative, server-side). ---
         if (!isNewPlayer(data)) {
-            DualStarters.LOGGER.info("[Dual Starters] {} already has a starter (selected={}, locked={}); ignoring pick.",
+            CobblemonFlexibleStarters.LOGGER.info("[Cobblemon Flexible Starters] {} already has a starter (selected={}, locked={}); ignoring pick.",
                     player.getGameProfile().getName(), data.getStarterSelected(), data.getStarterLocked());
             // Re-sync so a stale client screen closes cleanly.
             data.sendToPlayer(player);
@@ -67,7 +67,7 @@ public final class StarterGrantHandler {
         List<SelectStartersPacket.Pick> picks = packet.picks();
         int max = Config.starterCount();
         if (picks == null || picks.isEmpty() || picks.size() > max) {
-            DualStarters.LOGGER.warn("[Dual Starters] {} submitted {} pick(s) but the server allows 1-{}; ignoring.",
+            CobblemonFlexibleStarters.LOGGER.warn("[Cobblemon Flexible Starters] {} submitted {} pick(s) but the server allows 1-{}; ignoring.",
                     player.getGameProfile().getName(), picks == null ? -1 : picks.size(), max);
             return false;
         }
@@ -82,7 +82,7 @@ public final class StarterGrantHandler {
         for (SelectStartersPacket.Pick pick : picks) {
             PokemonProperties properties = resolve(starterList, pick.category(), pick.index(), resolved, rules);
             if (properties == null) {
-                DualStarters.LOGGER.warn("[Dual Starters] invalid or rule-violating pick from {}: [{}#{}]; granting nothing.",
+                CobblemonFlexibleStarters.LOGGER.warn("[Cobblemon Flexible Starters] invalid or rule-violating pick from {}: [{}#{}]; granting nothing.",
                         player.getGameProfile().getName(), pick.category(), pick.index());
                 player.displayClientMessage(Component.literal(
                         "Starter selection rejected: a pick is invalid or violates a duplicate/group limit. Undo it and try again."), true);
@@ -108,7 +108,7 @@ public final class StarterGrantHandler {
         dataManager.saveSingle(data, PlayerInstancedDataStoreTypes.INSTANCE.getGENERAL());
         data.sendToPlayer(player);
 
-        DualStarters.LOGGER.info("[Dual Starters] granted {} {} starter(s).",
+        CobblemonFlexibleStarters.LOGGER.info("[Cobblemon Flexible Starters] granted {} {} starter(s).",
                 player.getGameProfile().getName(), rolled.size());
         return true;
     }

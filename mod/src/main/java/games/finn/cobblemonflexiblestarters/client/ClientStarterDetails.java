@@ -1,9 +1,9 @@
-package games.finn.dualstarters.client;
+package games.finn.cobblemonflexiblestarters.client;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import games.finn.dualstarters.net.StarterDetailsPacket;
+import games.finn.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**

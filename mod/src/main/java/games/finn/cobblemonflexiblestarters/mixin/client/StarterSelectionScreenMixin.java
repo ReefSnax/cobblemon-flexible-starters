@@ -1,4 +1,4 @@
-package games.finn.dualstarters.mixin.client;
+package games.finn.cobblemonflexiblestarters.mixin.client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 
-import games.finn.dualstarters.Config;
-import games.finn.dualstarters.client.ClientStarterDetails;
-import games.finn.dualstarters.client.NativeGui;
-import games.finn.dualstarters.client.StarterActionButton;
-import games.finn.dualstarters.client.StarterSelectionState;
-import games.finn.dualstarters.client.TeamTrayWidget;
-import games.finn.dualstarters.net.SelectStartersPacket;
-import games.finn.dualstarters.net.StarterDetailsPacket;
+import games.finn.cobblemonflexiblestarters.Config;
+import games.finn.cobblemonflexiblestarters.client.ClientStarterDetails;
+import games.finn.cobblemonflexiblestarters.client.NativeGui;
+import games.finn.cobblemonflexiblestarters.client.StarterActionButton;
+import games.finn.cobblemonflexiblestarters.client.StarterSelectionState;
+import games.finn.cobblemonflexiblestarters.client.TeamTrayWidget;
+import games.finn.cobblemonflexiblestarters.net.SelectStartersPacket;
+import games.finn.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -54,7 +54,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * {@code SelectStarterPacket} for a single pick and closes. It is removed <em>by type</em> after
  * {@code init} (rather than by intercepting its synthetic lambda, which would be name-fragile) and
  * replaced with a Choose / Undo / Confirm row in the same footprint. Picks accumulate in
- * {@link #dualstarters$picks} and are submitted once, together, through this add-on's own
+ * {@link #cobblemonFlexibleStarters$picks} and are submitted once, together, through this add-on's own
  * server-validated {@link SelectStartersPacket}.</p>
  *
  * <p>The additions are a left-docked {@link TeamTrayWidget} showing the chosen team in native
@@ -65,27 +65,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class StarterSelectionScreenMixin extends Screen {
 
     /** Native {@code StarterSelectionScreen.BASE_WIDTH/BASE_HEIGHT}; both are private constants. */
-    @Unique private static final int DUALSTARTERS$BASE_WIDTH = 239;
-    @Unique private static final int DUALSTARTERS$BASE_HEIGHT = 197;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$BASE_WIDTH = 239;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$BASE_HEIGHT = 197;
 
     /** Native Choose-button footprint: x + 13, y + 180, 106 x 14. */
-    @Unique private static final int DUALSTARTERS$BUTTON_ROW_X = 13;
-    @Unique private static final int DUALSTARTERS$BUTTON_ROW_Y = 180;
-    @Unique private static final int DUALSTARTERS$GAP = 2;
-    @Unique private static final int DUALSTARTERS$CHOOSE_W = 40;
-    @Unique private static final int DUALSTARTERS$UNDO_W = 24;
-    @Unique private static final int DUALSTARTERS$CONFIRM_W = 38;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$BUTTON_ROW_X = 13;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$BUTTON_ROW_Y = 180;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$GAP = 2;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$CHOOSE_W = 40;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$UNDO_W = 24;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$CONFIRM_W = 38;
 
     /** Empty strip under the category list, left of the native ExitButton at x + 210. */
-    @Unique private static final int DUALSTARTERS$DETAIL_X = 135;
-    @Unique private static final int DUALSTARTERS$DETAIL_Y = 178;
-    @Unique private static final int DUALSTARTERS$DETAIL_LINE = 7;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$DETAIL_X = 135;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$DETAIL_Y = 178;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$DETAIL_LINE = 7;
     /** 0.5-scale text, so the raw-width budget is twice the ~70px of strip available. */
-    @Unique private static final int DUALSTARTERS$DETAIL_MAX = 140;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$DETAIL_MAX = 140;
     /** Center of Cobblemon's native Pokemon preview viewport. */
-    @Unique private static final int DUALSTARTERS$PREVIEW_CENTER_X = 65;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$PREVIEW_CENTER_X = 65;
     /** Top of the preview viewport, below the native name / dex-number chrome. */
-    @Unique private static final int DUALSTARTERS$FEEDBACK_Y = 22;
+    @Unique private static final int COBBLEMON_FLEXIBLE_STARTERS$FEEDBACK_Y = 22;
 
     @Shadow @Final private List<RenderableStarterCategory> categories;
     @Shadow private int currentSelection;
@@ -96,32 +96,32 @@ public abstract class StarterSelectionScreenMixin extends Screen {
     }
 
     /** Ordered picks, exactly as they will be sent. Survives init() re-runs (window resize). */
-    @Unique private List<SelectStartersPacket.Pick> dualstarters$picks;
-    /** Parallel to {@link #dualstarters$picks}; null entries are "random within category" picks. */
-    @Unique private List<RenderablePokemon> dualstarters$previews;
-    @Unique private int dualstarters$max;
-    @Unique private StarterActionButton dualstarters$chooseButton;
-    @Unique private StarterActionButton dualstarters$undoButton;
-    @Unique private StarterActionButton dualstarters$confirmButton;
+    @Unique private List<SelectStartersPacket.Pick> cobblemonFlexibleStarters$picks;
+    /** Parallel to {@link #cobblemonFlexibleStarters$picks}; null entries are "random within category" picks. */
+    @Unique private List<RenderablePokemon> cobblemonFlexibleStarters$previews;
+    @Unique private int cobblemonFlexibleStarters$max;
+    @Unique private StarterActionButton cobblemonFlexibleStarters$chooseButton;
+    @Unique private StarterActionButton cobblemonFlexibleStarters$undoButton;
+    @Unique private StarterActionButton cobblemonFlexibleStarters$confirmButton;
 
     @Inject(method = "init", at = @At("TAIL"), remap = false)
-    private void dualstarters$addMultiPickControls(CallbackInfo ci) {
+    private void cobblemonFlexibleStarters$addMultiPickControls(CallbackInfo ci) {
         if (this.categories == null || this.categories.isEmpty()) {
             // Cobblemon logs and adds nothing in this case; there is nothing to augment.
             return;
         }
-        if (this.dualstarters$picks == null) {
-            this.dualstarters$picks = new ArrayList<>();
-            this.dualstarters$previews = new ArrayList<>();
+        if (this.cobblemonFlexibleStarters$picks == null) {
+            this.cobblemonFlexibleStarters$picks = new ArrayList<>();
+            this.cobblemonFlexibleStarters$previews = new ArrayList<>();
         }
         // Server-authoritative count: SERVER-type configs are synced to the client on connect, and
         // StarterGrantHandler re-validates the submitted size regardless of what we show here.
-        this.dualstarters$max = Config.starterCount();
-        while (this.dualstarters$picks.size() > this.dualstarters$max) {
-            this.dualstarters$picks.remove(this.dualstarters$picks.size() - 1);
-            this.dualstarters$previews.remove(this.dualstarters$previews.size() - 1);
+        this.cobblemonFlexibleStarters$max = Config.starterCount();
+        while (this.cobblemonFlexibleStarters$picks.size() > this.cobblemonFlexibleStarters$max) {
+            this.cobblemonFlexibleStarters$picks.remove(this.cobblemonFlexibleStarters$picks.size() - 1);
+            this.cobblemonFlexibleStarters$previews.remove(this.cobblemonFlexibleStarters$previews.size() - 1);
         }
-        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.dualstarters$previews);
+        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.cobblemonFlexibleStarters$previews);
 
         List<GuiEventListener> existing = new ArrayList<>(this.children());
         for (GuiEventListener child : existing) {
@@ -130,52 +130,52 @@ public abstract class StarterSelectionScreenMixin extends Screen {
             }
         }
 
-        int x = (this.width - DUALSTARTERS$BASE_WIDTH) / 2;
-        int y = (this.height - DUALSTARTERS$BASE_HEIGHT) / 2;
-        int row = y + DUALSTARTERS$BUTTON_ROW_Y;
-        int chooseX = x + DUALSTARTERS$BUTTON_ROW_X;
-        int undoX = chooseX + DUALSTARTERS$CHOOSE_W + DUALSTARTERS$GAP;
-        int confirmX = undoX + DUALSTARTERS$UNDO_W + DUALSTARTERS$GAP;
+        int x = (this.width - COBBLEMON_FLEXIBLE_STARTERS$BASE_WIDTH) / 2;
+        int y = (this.height - COBBLEMON_FLEXIBLE_STARTERS$BASE_HEIGHT) / 2;
+        int row = y + COBBLEMON_FLEXIBLE_STARTERS$BUTTON_ROW_Y;
+        int chooseX = x + COBBLEMON_FLEXIBLE_STARTERS$BUTTON_ROW_X;
+        int undoX = chooseX + COBBLEMON_FLEXIBLE_STARTERS$CHOOSE_W + COBBLEMON_FLEXIBLE_STARTERS$GAP;
+        int confirmX = undoX + COBBLEMON_FLEXIBLE_STARTERS$UNDO_W + COBBLEMON_FLEXIBLE_STARTERS$GAP;
 
-        this.dualstarters$chooseButton = this.addRenderableWidget(new StarterActionButton(
-                chooseX, row, DUALSTARTERS$CHOOSE_W,
-                Component.translatable("dualstarters.screen.choose"),
-                button -> this.dualstarters$addCurrentPick()));
-        this.dualstarters$undoButton = this.addRenderableWidget(new StarterActionButton(
-                undoX, row, DUALSTARTERS$UNDO_W,
-                Component.translatable("dualstarters.screen.undo"),
-                button -> this.dualstarters$undoLastPick()));
-        this.dualstarters$confirmButton = this.addRenderableWidget(new StarterActionButton(
-                confirmX, row, DUALSTARTERS$CONFIRM_W,
-                Component.translatable("dualstarters.screen.confirm"),
-                button -> this.dualstarters$confirm()));
+        this.cobblemonFlexibleStarters$chooseButton = this.addRenderableWidget(new StarterActionButton(
+                chooseX, row, COBBLEMON_FLEXIBLE_STARTERS$CHOOSE_W,
+                Component.translatable("cobblemon_flexible_starters.screen.choose"),
+                button -> this.cobblemonFlexibleStarters$addCurrentPick()));
+        this.cobblemonFlexibleStarters$undoButton = this.addRenderableWidget(new StarterActionButton(
+                undoX, row, COBBLEMON_FLEXIBLE_STARTERS$UNDO_W,
+                Component.translatable("cobblemon_flexible_starters.screen.undo"),
+                button -> this.cobblemonFlexibleStarters$undoLastPick()));
+        this.cobblemonFlexibleStarters$confirmButton = this.addRenderableWidget(new StarterActionButton(
+                confirmX, row, COBBLEMON_FLEXIBLE_STARTERS$CONFIRM_W,
+                Component.translatable("cobblemon_flexible_starters.screen.confirm"),
+                button -> this.cobblemonFlexibleStarters$confirm()));
 
         // Docked left of the native frame. Minecraft guarantees a scaled width of at least 320, so
         // frame (239) + tray (35) + gap still fits; the clamp only guards exotic scale overrides.
-        int trayHeight = TeamTrayWidget.heightFor(this.dualstarters$max);
+        int trayHeight = TeamTrayWidget.heightFor(this.cobblemonFlexibleStarters$max);
         int trayX = Math.max(1, x - TeamTrayWidget.WIDTH - 4);
-        int trayY = y + (DUALSTARTERS$BASE_HEIGHT - trayHeight) / 2;
+        int trayY = y + (COBBLEMON_FLEXIBLE_STARTERS$BASE_HEIGHT - trayHeight) / 2;
         this.addRenderableWidget(new TeamTrayWidget(
-                trayX, trayY, this.dualstarters$max, () -> this.dualstarters$previews));
+                trayX, trayY, this.cobblemonFlexibleStarters$max, () -> this.cobblemonFlexibleStarters$previews));
 
-        this.dualstarters$refreshButtons();
+        this.cobblemonFlexibleStarters$refreshButtons();
     }
 
     @Inject(method = "render", at = @At("TAIL"), remap = false)
-    private void dualstarters$renderSelectionDetails(GuiGraphics context, int mouseX, int mouseY,
+    private void cobblemonFlexibleStarters$renderSelectionDetails(GuiGraphics context, int mouseX, int mouseY,
                                                      float delta, CallbackInfo ci) {
         if (this.categories == null || this.categories.isEmpty() || this.currentCategory == null) {
             return;
         }
-        this.dualstarters$refreshButtons(); // selection changes are native-screen state, so refresh every frame.
-        int x = (this.width - DUALSTARTERS$BASE_WIDTH) / 2;
-        int y = (this.height - DUALSTARTERS$BASE_HEIGHT) / 2;
-        NativeGui.text(context, null, Component.literal("Select up to " + this.dualstarters$max
+        this.cobblemonFlexibleStarters$refreshButtons(); // selection changes are native-screen state, so refresh every frame.
+        int x = (this.width - COBBLEMON_FLEXIBLE_STARTERS$BASE_WIDTH) / 2;
+        int y = (this.height - COBBLEMON_FLEXIBLE_STARTERS$BASE_HEIGHT) / 2;
+        NativeGui.text(context, null, Component.literal("Select up to " + this.cobblemonFlexibleStarters$max
                         + " Pokémon to join you on your journey!"),
-                x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 18, 0.80F, 290, NativeGui.WHITE, true, true);
+                x + COBBLEMON_FLEXIBLE_STARTERS$BASE_WIDTH / 2.0, y - 18, 0.80F, 290, NativeGui.WHITE, true, true);
         StringBuilder limits = new StringBuilder("Special Limits: ");
         boolean hasEnabledGroup = false;
-        for (games.finn.dualstarters.StarterSelectionRules.Group group : Config.groups()) {
+        for (games.finn.cobblemonflexiblestarters.StarterSelectionRules.Group group : Config.groups()) {
             if (!group.enabled()) continue;
             if (hasEnabledGroup) limits.append(", ");
             limits.append(StarterSelectionState.groupLabel(group)).append(" (")
@@ -184,16 +184,16 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         }
         if (hasEnabledGroup) {
             NativeGui.text(context, null, Component.literal(limits.toString()),
-                    x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 10, 0.65F, 350, NativeGui.WHITE, true, true);
+                    x + COBBLEMON_FLEXIBLE_STARTERS$BASE_WIDTH / 2.0, y - 10, 0.65F, 350, NativeGui.WHITE, true, true);
         }
-        String violation = this.dualstarters$currentViolation();
+        String violation = this.cobblemonFlexibleStarters$currentViolation();
         if (violation != null) {
             int colour = "Selected".equals(violation) ? 0xFF79E38A : 0xFFFFA0A0;
             // Keep feedback inside the upper preview viewport: visible while browsing, clear of
             // the native description, category list, and the Ball/Nature footer. The compact
             // scale accommodates messages such as "Pseudo-Legendary limit reached" without spill.
             NativeGui.text(context, null, Component.literal(violation),
-                    x + DUALSTARTERS$PREVIEW_CENTER_X, y + DUALSTARTERS$FEEDBACK_Y,
+                    x + COBBLEMON_FLEXIBLE_STARTERS$PREVIEW_CENTER_X, y + COBBLEMON_FLEXIBLE_STARTERS$FEEDBACK_Y,
                     0.65F, 180, colour, true, true);
         }
 
@@ -201,28 +201,28 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         // value means the property is genuinely unset, which Cobblemon rolls at grant time.
         StarterDetailsPacket.Entry entry = ClientStarterDetails.get(
                 this.currentCategory.getName(), this.currentSelection);
-        MutableComponent ball = Component.translatable("dualstarters.screen.ball",
-                dualstarters$ballName(entry == null ? null : entry.ball()));
-        MutableComponent nature = Component.translatable("dualstarters.screen.nature",
-                dualstarters$natureName(entry == null ? null : entry.nature()));
+        MutableComponent ball = Component.translatable("cobblemon_flexible_starters.screen.ball",
+                cobblemonFlexibleStarters$ballName(entry == null ? null : entry.ball()));
+        MutableComponent nature = Component.translatable("cobblemon_flexible_starters.screen.nature",
+                cobblemonFlexibleStarters$natureName(entry == null ? null : entry.nature()));
 
         // Replace Cobblemon's fixed top-left Poké Ball (rendered at x+4/y+3) with the actual
         // configured ball.  This is the same native item sprite layer, at the same half-scale,
         // so it stays where the player expects instead of adding a second ball near the controls.
-        NativeGui.blitScaled(context.pose(), dualstarters$topLeftBallTexture(entry == null ? null : entry.ball()),
+        NativeGui.blitScaled(context.pose(), cobblemonFlexibleStarters$topLeftBallTexture(entry == null ? null : entry.ball()),
                 x + 4, y + 3, 16, 16, 0.5F);
-        NativeGui.text(context, null, ball, x + DUALSTARTERS$DETAIL_X, y + DUALSTARTERS$DETAIL_Y,
-                0.5F, DUALSTARTERS$DETAIL_MAX, NativeGui.WHITE, false, true);
-        NativeGui.text(context, null, nature, x + DUALSTARTERS$DETAIL_X,
-                y + DUALSTARTERS$DETAIL_Y + DUALSTARTERS$DETAIL_LINE,
-                0.5F, DUALSTARTERS$DETAIL_MAX, NativeGui.WHITE, false, true);
+        NativeGui.text(context, null, ball, x + COBBLEMON_FLEXIBLE_STARTERS$DETAIL_X, y + COBBLEMON_FLEXIBLE_STARTERS$DETAIL_Y,
+                0.5F, COBBLEMON_FLEXIBLE_STARTERS$DETAIL_MAX, NativeGui.WHITE, false, true);
+        NativeGui.text(context, null, nature, x + COBBLEMON_FLEXIBLE_STARTERS$DETAIL_X,
+                y + COBBLEMON_FLEXIBLE_STARTERS$DETAIL_Y + COBBLEMON_FLEXIBLE_STARTERS$DETAIL_LINE,
+                0.5F, COBBLEMON_FLEXIBLE_STARTERS$DETAIL_MAX, NativeGui.WHITE, false, true);
     }
 
     /** Adds whatever the native screen currently has selected, including a "random" slot. */
     @Unique
-    private void dualstarters$addCurrentPick() {
-        if (this.currentCategory == null || this.dualstarters$picks.size() >= this.dualstarters$max
-                || this.dualstarters$currentViolation() != null) {
+    private void cobblemonFlexibleStarters$addCurrentPick() {
+        if (this.currentCategory == null || this.cobblemonFlexibleStarters$picks.size() >= this.cobblemonFlexibleStarters$max
+                || this.cobblemonFlexibleStarters$currentViolation() != null) {
             return;
         }
         List<RenderablePokemon> pokemon = this.currentCategory.getPokemon();
@@ -235,62 +235,62 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         if (random && !this.currentCategory.getRandomStarter()) {
             return;
         }
-        this.dualstarters$picks.add(
+        this.cobblemonFlexibleStarters$picks.add(
                 new SelectStartersPacket.Pick(this.currentCategory.getName(), index));
-        this.dualstarters$previews.add(random ? null : pokemon.get(index));
-        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.dualstarters$previews);
-        this.dualstarters$playClick();
-        this.dualstarters$refreshButtons();
+        this.cobblemonFlexibleStarters$previews.add(random ? null : pokemon.get(index));
+        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.cobblemonFlexibleStarters$previews);
+        this.cobblemonFlexibleStarters$playClick();
+        this.cobblemonFlexibleStarters$refreshButtons();
     }
 
     @Unique
-    private void dualstarters$undoLastPick() {
-        if (this.dualstarters$picks.isEmpty()) {
+    private void cobblemonFlexibleStarters$undoLastPick() {
+        if (this.cobblemonFlexibleStarters$picks.isEmpty()) {
             return;
         }
-        this.dualstarters$picks.remove(this.dualstarters$picks.size() - 1);
-        this.dualstarters$previews.remove(this.dualstarters$previews.size() - 1);
-        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.dualstarters$previews);
-        this.dualstarters$playClick();
-        this.dualstarters$refreshButtons();
+        this.cobblemonFlexibleStarters$picks.remove(this.cobblemonFlexibleStarters$picks.size() - 1);
+        this.cobblemonFlexibleStarters$previews.remove(this.cobblemonFlexibleStarters$previews.size() - 1);
+        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.cobblemonFlexibleStarters$previews);
+        this.cobblemonFlexibleStarters$playClick();
+        this.cobblemonFlexibleStarters$refreshButtons();
     }
 
     @Unique
-    private void dualstarters$confirm() {
-        if (this.dualstarters$picks.isEmpty()) {
+    private void cobblemonFlexibleStarters$confirm() {
+        if (this.cobblemonFlexibleStarters$picks.isEmpty()) {
             return;
         }
         PacketDistributor.sendToServer(
-                new SelectStartersPacket(List.copyOf(this.dualstarters$picks)));
-        this.dualstarters$playClick();
+                new SelectStartersPacket(List.copyOf(this.cobblemonFlexibleStarters$picks)));
+        this.cobblemonFlexibleStarters$playClick();
         this.onClose();
     }
 
     @Unique
-    private void dualstarters$refreshButtons() {
-        int chosen = this.dualstarters$picks.size();
-        this.dualstarters$chooseButton.active = chosen < this.dualstarters$max
-                && this.dualstarters$currentViolation() == null;
-        this.dualstarters$undoButton.active = chosen > 0;
-        this.dualstarters$confirmButton.active = chosen > 0;
+    private void cobblemonFlexibleStarters$refreshButtons() {
+        int chosen = this.cobblemonFlexibleStarters$picks.size();
+        this.cobblemonFlexibleStarters$chooseButton.active = chosen < this.cobblemonFlexibleStarters$max
+                && this.cobblemonFlexibleStarters$currentViolation() == null;
+        this.cobblemonFlexibleStarters$undoButton.active = chosen > 0;
+        this.cobblemonFlexibleStarters$confirmButton.active = chosen > 0;
     }
 
     /** Client polish only; StarterGrantHandler remains the authoritative validation. */
     @Unique
-    private String dualstarters$currentViolation() {
+    private String cobblemonFlexibleStarters$currentViolation() {
         return StarterSelectionState.violation(this.currentCategory, this.currentSelection);
     }
 
     /** Cobblemon's UI click, matching every other control on this screen. */
     @Unique
-    private void dualstarters$playClick() {
+    private void cobblemonFlexibleStarters$playClick() {
         Minecraft.getInstance().getSoundManager()
                 .play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F));
     }
 
     /** Resolves the 16px native item sprite that Cobblemon places next to the species name. */
     @Unique
-    private static ResourceLocation dualstarters$topLeftBallTexture(String raw) {
+    private static ResourceLocation cobblemonFlexibleStarters$topLeftBallTexture(String raw) {
         String path = "poke_ball";
         if (raw != null && !raw.isEmpty()) {
             ResourceLocation id = ResourceLocation.tryParse(raw.indexOf(':') >= 0 ? raw : "cobblemon:" + raw);
@@ -302,9 +302,9 @@ public abstract class StarterSelectionScreenMixin extends Screen {
     }
 
     @Unique
-    private static Component dualstarters$ballName(String raw) {
+    private static Component cobblemonFlexibleStarters$ballName(String raw) {
         if (raw == null || raw.isEmpty()) {
-            return Component.translatable("dualstarters.screen.random");
+            return Component.translatable("cobblemon_flexible_starters.screen.random");
         }
         ResourceLocation id = ResourceLocation.tryParse(raw.indexOf(':') >= 0 ? raw : "cobblemon:" + raw);
         if (id != null) {
@@ -317,9 +317,9 @@ public abstract class StarterSelectionScreenMixin extends Screen {
     }
 
     @Unique
-    private static Component dualstarters$natureName(String raw) {
+    private static Component cobblemonFlexibleStarters$natureName(String raw) {
         if (raw == null || raw.isEmpty()) {
-            return Component.translatable("dualstarters.screen.random");
+            return Component.translatable("cobblemon_flexible_starters.screen.random");
         }
         // 1.8.4's Natures.getNature(String) always applies the Cobblemon namespace itself.  The
         // configured property can already be stored as cobblemon:modest, so pass only its path to

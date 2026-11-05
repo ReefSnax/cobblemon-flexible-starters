@@ -1,0 +1,10 @@
+{
+  "cobblemon_flexible_starters.screen.choose": "Choose",
+  "cobblemon_flexible_starters.screen.undo": "Undo",
+  "cobblemon_flexible_starters.screen.confirm": "Confirm",
+  "cobblemon_flexible_starters.screen.team": "Team %s/%s",
+  "cobblemon_flexible_starters.screen.ball": "Ball: %s",
+  "cobblemon_flexible_starters.screen.nature": "Nature: %s",
+  "cobblemon_flexible_starters.screen.random": "Random",
+  "cobblemon_flexible_starters.config.starter_count": "Number of starters a new player may choose (1-6)"
+}

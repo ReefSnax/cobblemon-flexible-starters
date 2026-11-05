@@ -1,4 +1,4 @@
-package games.finn.dualstarters;
+package games.finn.cobblemonflexiblestarters;
 
 import java.util.ArrayList;
 import java.util.List;
