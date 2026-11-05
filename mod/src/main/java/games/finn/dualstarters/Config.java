@@ -84,10 +84,10 @@ public final class Config {
         PSEUDO_LEGENDARIES_SPECIES = builder
                 .comment("The active pseudo-legendary example pool. Edit this list freely; group limits",
                         "match base species regardless of regional form or aspect. The default list is",
-                        "Dratini, Larvitar, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, and Frigibax.")
+                        "Dratini, Larvitar, Bagon, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, and Frigibax.")
                 .translation("dualstarters.config.group.pseudo_legendaries.species")
                 .defineList("species", List.of(
-                        "dratini", "larvitar", "beldum", "gible", "deino",
+                        "dratini", "larvitar", "bagon", "beldum", "gible", "deino",
                         "goomy", "jangmo-o", "dreepy", "frigibax"
                 ), o -> o instanceof String);
         builder.pop();

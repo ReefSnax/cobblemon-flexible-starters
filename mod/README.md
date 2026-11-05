@@ -54,7 +54,7 @@ duplicateIdentity = "SPECIES_AND_VARIANT"
 
 The `[exclusivityGroups]` section contains **three independently editable selection groups**. Each has an `enabled` flag, a `max` cap, and a `species` list. Only enabled groups impose a cap, and a species can belong to more than one active group.
 
-- `pseudoLegendaries` is enabled by default with `max = 1`. Its list contains Dratini, Larvitar, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, and Frigibax.
+- `pseudoLegendaries` is enabled by default with `max = 1`. Its list contains Dratini, Larvitar, Bagon, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, and Frigibax.
 - `fanFavorites` is a disabled example using Pikachu and Eevee.
 - `traditionalStarters` is a disabled example using Bulbasaur, Charmander, and Squirtle.
 
