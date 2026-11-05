@@ -1,64 +1,81 @@
-# Dual Starters — Install Guide
+# Cobblemon Flexible Starters — Installation Guide
 
-Pick **several** starter Pokémon at once (1-6, server-configurable, default 2), from a clean
-Cobblemon-styled screen.
+Choose a configurable team of starters from Cobblemon's native-style starter screen. The server decides how many starters each new player may pick; the default is **2** and the valid range is **1–6**.
 
-## What you need
+## Compatibility
 
-| Thing | Version | Where |
-|---|---|---|
-| Minecraft: Java Edition | **1.21.1** | the Minecraft launcher |
-| Java | **21** (Temurin) | https://adoptium.net/temurin/releases/?version=21 |
-| NeoForge | **21.1.264** | https://neoforged.net/ |
-| Cobblemon (NeoForge) | **1.8.0** | https://modrinth.com/mod/cobblemon/versions |
-| Kotlin for Forge | **5.12.0** | https://modrinth.com/mod/kotlin-for-forge/versions |
-| **Dual Starters** | this release | the `.jar` below ⬇ |
+| Requirement | Tested version |
+|---|---|
+| Minecraft: Java Edition | 1.21.1 |
+| Java | 21 |
+| NeoForge | 21.1.265 |
+| Cobblemon (NeoForge) | 1.8.4 |
+| Cobblemon Flexible Starters | 0.3.0 |
 
-A launcher that makes this easy: **Prism Launcher** (https://prismlauncher.org/).
-
-Dual Starters is a **client + server** add-on: every player and the server (dedicated or
-single-player's integrated server) need the jar. Cobblemon itself is never modified or bundled —
-install it normally alongside this add-on.
+The add-on is required on both the client and server. It is a separate mod; do not modify or bundle Cobblemon.
 
 ## Install
 
-1. Make a **1.21.1 + NeoForge 21.1.264** instance (in Prism: Add Instance → pick 1.21.1 → NeoForge 21.1.264).
-2. Open that instance's **mods** folder.
-3. Put **all three** jars in it:
-   - `Cobblemon-neoforge-1.8.0+1.21.1.jar`
-   - `kotlinforforge-5.12.0-all.jar`
-   - `dualstarters-0.3.0.jar`  ← from this release
-4. Launch the game.
-5. For a dedicated server, repeat steps 2-3 in the server's `mods` folder.
+1. Ensure the client and dedicated server use matching Minecraft, NeoForge, and Cobblemon versions.
+2. Put `dualstarters-0.3.0.jar` in each side's `mods/` directory.
+3. Do not retain older `dualstarters-*.jar` builds alongside it; only one copy of the mod should be installed.
+4. Fully restart the server and clients.
 
-## Server config: `starterCount`
+## Configure custom starter categories
 
-How many starters a new player picks is controlled by **one server-side setting**:
+On the **server**, edit `config/cobblemon/main.json` and ensure:
 
-- File: `world/serverconfig/dualstarters-server.toml` (created the first time the world/server
-  starts; for single-player this is inside the save folder; for a dedicated server it is relative
-  to the server's working directory).
-- Key: `starterCount` — an integer, **clamped to 1-6**, default **2**.
+```json
+"exportStarterConfig": true
+```
 
-This value is **server-authoritative**: NeoForge syncs it to every connecting client
-automatically, so a player's local client always sees (and can only submit) the server's count —
-editing a local config, or using a mismatched client build, cannot grant extra starters. The
-server also independently re-validates the submitted pick count before granting anything, so this
-holds even against a client that skips the sync entirely.
+Then set the desired starter configuration in:
 
-To change it: stop the server/world, edit `starterCount` in that file, restart.
+```text
+config/cobblemon/starters.json
+```
 
-## How to play
+That JSON must contain:
 
-1. Make a **new world** (or join a fresh server).
-2. Press **M** to open the starter picker.
-3. Use **◀ ▶** next to the Pokémon to browse within a category, and **◀ ▶** next to the category
-   name to switch categories.
-4. Click a slot to make it the current slot (highlighted), then **I choose you!** to fill it —
-   repeated picks auto-advance to the next empty slot. **Remove** clears the current slot.
-5. Once every slot is filled, **Confirm your team** — you get all of them!
+```json
+{
+  "allowStarterOnJoin": true,
+  "promptStarterOnceOnly": true,
+  "useConfigStarters": true,
+  "starters": []
+}
+```
 
-You only get to pick once per world/server, so choose wisely.
+Populate `starters` with Cobblemon categories and Pokémon properties as normal. Ball and nature values such as `pokeball=safari_ball nature=modest` are displayed in the picker and granted server-side.
 
----
-Source: https://github.com/erichexter/dualstarters
+In single-player, the integrated server reads the instance's `config/cobblemon/` directory. In multiplayer, only the dedicated server's configuration is authoritative.
+
+## Set the number of starters
+
+After the server has started once, edit:
+
+```text
+world/serverconfig/dualstarters-server.toml
+```
+
+Set:
+
+```toml
+starterCount = 2
+```
+
+The setting is clamped to 1–6 and synchronized to joining clients. Restart the server after changing it.
+
+## Player flow
+
+1. Open Cobblemon's starter selector as a new player.
+2. Browse categories and Pokémon with Cobblemon's normal controls.
+3. Press **Choose** to add the current starter to the team tray.
+4. Use **Undo** to remove the most recent choice.
+5. Press **Confirm** once at least one starter is chosen.
+
+The server rejects malformed, over-limit, replayed, or no-longer-valid selections.
+
+## Acknowledgments
+
+Cobblemon Flexible Starters is independently maintained. [erichexter/dualstarters](https://github.com/erichexter/dualstarters) provided initial inspiration; this repository is not maintained as a fork.

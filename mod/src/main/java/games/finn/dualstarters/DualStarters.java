@@ -1,9 +1,9 @@
 package games.finn.dualstarters;
 
 import com.mojang.logging.LogUtils;
+import games.finn.dualstarters.client.ClientPayloads;
 import games.finn.dualstarters.net.SelectStartersPacket;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -32,13 +32,17 @@ public class DualStarters {
     }
 
     private static void registerPayloads(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("2");
         // Client -> server: the player's starter picks from the picker screen.
         registrar.playToServer(
                 SelectStartersPacket.TYPE,
                 SelectStartersPacket.STREAM_CODEC,
                 StarterGrantHandler::handle
         );
-        LOGGER.info("[Dual Starters] registered starter selection packet");
+        // Server -> client: authoritative ball/nature details for display. This registration must
+        // happen on both physical sides: the dedicated server owns the packet type when it sends,
+        // while ClientPayloads gates its client-only implementation at delivery time.
+        ClientPayloads.register(registrar);
+        LOGGER.info("[Dual Starters] registered starter packets");
     }
 }

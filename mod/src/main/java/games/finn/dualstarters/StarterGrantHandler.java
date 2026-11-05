@@ -19,9 +19,10 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 /**
  * Server-side logic for Dual Starters.
  *
- * <p>Receives {@link SelectStartersPacket} from the picker screen and grants exactly
- * {@link Config#starterCount()} independent starter Pokemon, but ONLY to a player who has never
- * chosen a starter. The authoritative "new player" gate is {@code !starterSelected &&
+ * <p>Receives {@link SelectStartersPacket} from the picker screen and grants between 1 and
+ * {@link Config#starterCount()} independent starter Pokemon (the player's choice - they are not
+ * required to fill every slot), but ONLY to a player who has never chosen a starter. The
+ * authoritative "new player" gate is {@code !starterSelected &&
  * !starterLocked} on Cobblemon's {@link GeneralPlayerData} - re-checked here so a spoofed or
  * replayed packet cannot grant twice (the data object is fetched fresh per packet and mutated on
  * grant, and since the server processes both the gate check and the mutation inside a single
@@ -59,12 +60,14 @@ public final class StarterGrantHandler {
             return false;
         }
 
-        // --- Count validation (authoritative, server-side; config is also synced to clients). ---
+        // --- Count validation (authoritative, server-side; config is also synced to clients).
+        // The player may choose anywhere from 1 up to the configured max - they are not required
+        // to fill every slot. ---
         List<SelectStartersPacket.Pick> picks = packet.picks();
-        int required = Config.starterCount();
-        if (picks == null || picks.size() != required) {
-            DualStarters.LOGGER.warn("[Dual Starters] {} submitted {} pick(s) but the server requires exactly {}; ignoring.",
-                    player.getGameProfile().getName(), picks == null ? -1 : picks.size(), required);
+        int max = Config.starterCount();
+        if (picks == null || picks.isEmpty() || picks.size() > max) {
+            DualStarters.LOGGER.warn("[Dual Starters] {} submitted {} pick(s) but the server allows 1-{}; ignoring.",
+                    player.getGameProfile().getName(), picks == null ? -1 : picks.size(), max);
             return false;
         }
 
@@ -73,7 +76,7 @@ public final class StarterGrantHandler {
         // Roll every pick before granting any of them: one invalid pick invalidates the whole
         // submission (no partial grants). Each roll() call is an independent create(), so picking
         // the same species more than once still yields separately-rolled Pokemon.
-        List<Pokemon> rolled = new ArrayList<>(required);
+        List<Pokemon> rolled = new ArrayList<>(picks.size());
         for (SelectStartersPacket.Pick pick : picks) {
             Pokemon mon = roll(starterList, pick.category(), pick.index(), player);
             if (mon == null) {

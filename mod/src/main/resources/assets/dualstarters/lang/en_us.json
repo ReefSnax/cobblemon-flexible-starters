@@ -1,12 +1,10 @@
 {
-  "dualstarters.screen.title": "Choose Your Starters",
-  "dualstarters.screen.category_counter": "%s (%s/%s)",
-  "dualstarters.screen.slot": "Slot %s",
-  "dualstarters.screen.slot_empty": "- empty -",
-  "dualstarters.screen.choose": "I choose you!",
-  "dualstarters.screen.remove": "Remove",
-  "dualstarters.screen.confirm": "Confirm your team",
-  "dualstarters.screen.close": "Close",
-  "dualstarters.screen.no_starters": "No starters are configured.",
-  "dualstarters.config.starter_count": "Number of starters a new player chooses (1-6)"
+  "dualstarters.screen.choose": "Choose",
+  "dualstarters.screen.undo": "Undo",
+  "dualstarters.screen.confirm": "Confirm",
+  "dualstarters.screen.team": "Team %s/%s",
+  "dualstarters.screen.ball": "Ball: %s",
+  "dualstarters.screen.nature": "Nature: %s",
+  "dualstarters.screen.random": "Random",
+  "dualstarters.config.starter_count": "Number of starters a new player may choose (1-6)"
 }

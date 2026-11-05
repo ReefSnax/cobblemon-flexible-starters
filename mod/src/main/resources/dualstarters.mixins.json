@@ -3,8 +3,11 @@
   "minVersion": "0.8",
   "package": "games.finn.dualstarters.mixin",
   "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "StarterHandlerMixin"
+  ],
   "client": [
-    "StarterUIPacketHandlerMixin"
+    "client.StarterSelectionScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
