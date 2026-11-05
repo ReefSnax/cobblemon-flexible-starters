@@ -42,7 +42,9 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    // Keep the distributable filename aligned with the public mod name without changing the
+    // established mod ID / network namespace used by existing worlds and clients.
+    archivesName = 'cobblemon-flexible-starters'
 }
 
 // Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.

@@ -27,7 +27,10 @@ public class DualStarters {
         LOGGER.info("[Dual Starters] loading - configurable multi-starter Cobblemon add-on");
         // SERVER config type: values live per-world/per-server and are synced to every
         // connecting client, so the starter count a client can submit is always the server's.
-        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC);
+        // The explicit filename keeps the server-editable TOML alongside the public JAR name.
+        // MODID remains dualstarters for backwards-compatible networking and resource locations.
+        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC,
+                "cobblemon-flexible-starters-server.toml");
         modEventBus.addListener(DualStarters::registerPayloads);
     }
 
