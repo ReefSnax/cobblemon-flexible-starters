@@ -2,8 +2,6 @@ package games.finn.dualstarters.mixin.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.api.pokeball.PokeBalls;
@@ -19,6 +17,7 @@ import games.finn.dualstarters.Config;
 import games.finn.dualstarters.client.ClientStarterDetails;
 import games.finn.dualstarters.client.NativeGui;
 import games.finn.dualstarters.client.StarterActionButton;
+import games.finn.dualstarters.client.StarterSelectionState;
 import games.finn.dualstarters.client.TeamTrayWidget;
 import games.finn.dualstarters.net.SelectStartersPacket;
 import games.finn.dualstarters.net.StarterDetailsPacket;
@@ -83,6 +82,8 @@ public abstract class StarterSelectionScreenMixin extends Screen {
     @Unique private static final int DUALSTARTERS$DETAIL_LINE = 7;
     /** 0.5-scale text, so the raw-width budget is twice the ~70px of strip available. */
     @Unique private static final int DUALSTARTERS$DETAIL_MAX = 140;
+    /** The native category list ends at y + 172; this sits immediately below it. */
+    @Unique private static final int DUALSTARTERS$FEEDBACK_Y = 172;
 
     @Shadow @Final private List<RenderableStarterCategory> categories;
     @Shadow private int currentSelection;
@@ -111,7 +112,6 @@ public abstract class StarterSelectionScreenMixin extends Screen {
             this.dualstarters$picks = new ArrayList<>();
             this.dualstarters$previews = new ArrayList<>();
         }
-
         // Server-authoritative count: SERVER-type configs are synced to the client on connect, and
         // StarterGrantHandler re-validates the submitted size regardless of what we show here.
         this.dualstarters$max = Config.starterCount();
@@ -119,6 +119,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
             this.dualstarters$picks.remove(this.dualstarters$picks.size() - 1);
             this.dualstarters$previews.remove(this.dualstarters$previews.size() - 1);
         }
+        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.dualstarters$previews);
 
         List<GuiEventListener> existing = new ArrayList<>(this.children());
         for (GuiEventListener child : existing) {
@@ -167,18 +168,29 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         this.dualstarters$refreshButtons(); // selection changes are native-screen state, so refresh every frame.
         int x = (this.width - DUALSTARTERS$BASE_WIDTH) / 2;
         int y = (this.height - DUALSTARTERS$BASE_HEIGHT) / 2;
-        StringBuilder limits = new StringBuilder("Total Pokémon selected: ")
-                .append(this.dualstarters$picks.size()).append('/').append(this.dualstarters$max);
+        NativeGui.text(context, null, Component.literal("Select up to " + this.dualstarters$max
+                        + " Pokémon to join you on your journey!"),
+                x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 18, 0.65F, 360, NativeGui.WHITE, true, true);
+        StringBuilder limits = new StringBuilder("Special Limits: ");
+        boolean hasEnabledGroup = false;
         for (games.finn.dualstarters.StarterSelectionRules.Group group : Config.groups()) {
-            if (group.enabled()) limits.append("  |  ").append(dualstarters$groupLabel(group)).append(": ")
-                    .append(this.dualstarters$countGroup(group)).append('/').append(group.max());
+            if (!group.enabled()) continue;
+            if (hasEnabledGroup) limits.append(", ");
+            limits.append(StarterSelectionState.groupLabel(group)).append(" (")
+                    .append(StarterSelectionState.count(group)).append('/').append(group.max()).append(')');
+            hasEnabledGroup = true;
         }
-        NativeGui.text(context, null, Component.literal(limits.toString()),
-                x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 11, 0.65F, 360, NativeGui.WHITE, true, true);
+        if (hasEnabledGroup) {
+            NativeGui.text(context, null, Component.literal(limits.toString()),
+                    x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 10, 0.55F, 400, NativeGui.WHITE, true, true);
+        }
         String violation = this.dualstarters$currentViolation();
         if (violation != null) {
-            NativeGui.text(context, null, Component.literal(violation), x + DUALSTARTERS$BASE_WIDTH / 2.0,
-                    y + 22, 0.65F, 360, 0xFFFFA0A0, true, true);
+            int colour = "Selected".equals(violation) ? 0xFF79E38A : 0xFFFFA0A0;
+            // This is the same 1.0 text scale used by the native-style Confirm label, placed below
+            // the scrolling category menu instead of over Cobblemon's Pokemon description.
+            NativeGui.text(context, null, Component.literal(violation), x + 182, y + DUALSTARTERS$FEEDBACK_Y,
+                    1.0F, 90, colour, true, true);
         }
 
         // Ball/nature are whatever the server said the configured PokemonProperties hold; an empty
@@ -222,6 +234,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         this.dualstarters$picks.add(
                 new SelectStartersPacket.Pick(this.currentCategory.getName(), index));
         this.dualstarters$previews.add(random ? null : pokemon.get(index));
+        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.dualstarters$previews);
         this.dualstarters$playClick();
         this.dualstarters$refreshButtons();
     }
@@ -233,6 +246,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         }
         this.dualstarters$picks.remove(this.dualstarters$picks.size() - 1);
         this.dualstarters$previews.remove(this.dualstarters$previews.size() - 1);
+        StarterSelectionState.update((StarterSelectionScreen) (Object) this, this.dualstarters$previews);
         this.dualstarters$playClick();
         this.dualstarters$refreshButtons();
     }
@@ -260,58 +274,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
     /** Client polish only; StarterGrantHandler remains the authoritative validation. */
     @Unique
     private String dualstarters$currentViolation() {
-        if (this.currentCategory == null) return null;
-        List<RenderablePokemon> candidates = this.currentCategory.getPokemon();
-        if (this.currentSelection < 0 || this.currentSelection >= candidates.size()) {
-            return null; // Random is resolved safely by the server and cannot promise a species here.
-        }
-        RenderablePokemon candidate = candidates.get(this.currentSelection);
-        String species = dualstarters$species(candidate);
-        for (RenderablePokemon selected : this.dualstarters$previews) {
-            if (selected == null || !species.equals(dualstarters$species(selected))) continue;
-            if (Config.duplicateIdentity() == games.finn.dualstarters.StarterSelectionRules.DuplicateIdentityMode.SPECIES
-                    || (Config.duplicateIdentity() == games.finn.dualstarters.StarterSelectionRules.DuplicateIdentityMode.SPECIES_AND_VARIANT
-                    && dualstarters$variant(candidate).equals(dualstarters$variant(selected)))) {
-                return "Already selected";
-            }
-        }
-        for (games.finn.dualstarters.StarterSelectionRules.Group group : Config.groups()) {
-            if (group.enabled() && group.contains(species) && dualstarters$countGroup(group) >= group.max()) {
-                return dualstarters$groupLabel(group) + " limit reached";
-            }
-        }
-        return null;
-    }
-
-    @Unique
-    private int dualstarters$countGroup(games.finn.dualstarters.StarterSelectionRules.Group group) {
-        int count = 0;
-        for (RenderablePokemon selected : this.dualstarters$previews) {
-            if (selected != null && group.contains(dualstarters$species(selected))) count++;
-        }
-        return count;
-    }
-
-    @Unique
-    private static String dualstarters$groupLabel(games.finn.dualstarters.StarterSelectionRules.Group group) {
-        return switch (group.name()) {
-            case "pseudoLegendaries" -> "Pseudo-Legendary";
-            case "fanFavorites" -> "Fan Favorites";
-            case "traditionalStarters" -> "Traditional Starters";
-            default -> group.name();
-        };
-    }
-
-    @Unique
-    private static String dualstarters$species(RenderablePokemon pokemon) {
-        return pokemon.getSpecies().getName().toLowerCase(Locale.ROOT);
-    }
-
-    @Unique
-    private static String dualstarters$variant(RenderablePokemon pokemon) {
-        Set<String> aspects = pokemon.getAspects();
-        return (pokemon.getForm() == null ? "" : pokemon.getForm().getName()) + "|"
-                + aspects.stream().map(s -> s.toLowerCase(Locale.ROOT)).sorted().collect(java.util.stream.Collectors.joining(","));
+        return StarterSelectionState.violation(this.currentCategory, this.currentSelection);
     }
 
     /** Cobblemon's UI click, matching every other control on this screen. */

@@ -7,7 +7,9 @@
     "StarterHandlerMixin"
   ],
   "client": [
-    "client.StarterSelectionScreenMixin"
+    "client.StarterSelectionScreenMixin",
+    "client.CategoryListAccessor",
+    "client.CategoryEntryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
