@@ -172,7 +172,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         int y = (this.height - DUALSTARTERS$BASE_HEIGHT) / 2;
         NativeGui.text(context, null, Component.literal("Select up to " + this.dualstarters$max
                         + " Pokémon to join you on your journey!"),
-                x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 18, 0.65F, 360, NativeGui.WHITE, true, true);
+                x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 18, 0.80F, 290, NativeGui.WHITE, true, true);
         StringBuilder limits = new StringBuilder("Special Limits: ");
         boolean hasEnabledGroup = false;
         for (games.finn.dualstarters.StarterSelectionRules.Group group : Config.groups()) {
@@ -184,7 +184,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
         }
         if (hasEnabledGroup) {
             NativeGui.text(context, null, Component.literal(limits.toString()),
-                    x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 10, 0.55F, 400, NativeGui.WHITE, true, true);
+                    x + DUALSTARTERS$BASE_WIDTH / 2.0, y - 10, 0.65F, 350, NativeGui.WHITE, true, true);
         }
         String violation = this.dualstarters$currentViolation();
         if (violation != null) {
