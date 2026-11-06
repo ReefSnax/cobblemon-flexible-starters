@@ -1,9 +1,9 @@
-package com.reefsnax.cobblemonflexiblestarters.client;
+package dev.sharkwire.cobblemonflexiblestarters.client;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.reefsnax.cobblemonflexiblestarters.net.StarterDetailsPacket;
+import dev.sharkwire.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**

@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters.mixin;
+package dev.sharkwire.cobblemonflexiblestarters.mixin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData;
 import com.cobblemon.mod.common.config.starter.StarterCategory;
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler;
 
-import com.reefsnax.cobblemonflexiblestarters.StarterGrantHandler;
-import com.reefsnax.cobblemonflexiblestarters.net.StarterDetailsPacket;
+import dev.sharkwire.cobblemonflexiblestarters.StarterGrantHandler;
+import dev.sharkwire.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;

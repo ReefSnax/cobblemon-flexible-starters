@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters.mixin.client;
+package dev.sharkwire.cobblemonflexiblestarters.mixin.client;
 
 import java.util.List;
 

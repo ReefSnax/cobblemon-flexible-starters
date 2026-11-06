@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters.mixin.client;
+package dev.sharkwire.cobblemonflexiblestarters.mixin.client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.pokeball.PokeBall;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 
-import com.reefsnax.cobblemonflexiblestarters.Config;
-import com.reefsnax.cobblemonflexiblestarters.client.ClientStarterDetails;
-import com.reefsnax.cobblemonflexiblestarters.client.NativeGui;
-import com.reefsnax.cobblemonflexiblestarters.client.StarterActionButton;
-import com.reefsnax.cobblemonflexiblestarters.client.StarterSelectionState;
-import com.reefsnax.cobblemonflexiblestarters.client.TeamTrayWidget;
-import com.reefsnax.cobblemonflexiblestarters.net.SelectStartersPacket;
-import com.reefsnax.cobblemonflexiblestarters.net.StarterDetailsPacket;
+import dev.sharkwire.cobblemonflexiblestarters.Config;
+import dev.sharkwire.cobblemonflexiblestarters.client.ClientStarterDetails;
+import dev.sharkwire.cobblemonflexiblestarters.client.NativeGui;
+import dev.sharkwire.cobblemonflexiblestarters.client.StarterActionButton;
+import dev.sharkwire.cobblemonflexiblestarters.client.StarterSelectionState;
+import dev.sharkwire.cobblemonflexiblestarters.client.TeamTrayWidget;
+import dev.sharkwire.cobblemonflexiblestarters.net.SelectStartersPacket;
+import dev.sharkwire.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -175,7 +175,7 @@ public abstract class StarterSelectionScreenMixin extends Screen {
                 x + COBBLEMON_FLEXIBLE_STARTERS$BASE_WIDTH / 2.0, y - 18, 0.80F, 290, NativeGui.WHITE, true, true);
         StringBuilder limits = new StringBuilder("Special Limits: ");
         boolean hasEnabledGroup = false;
-        for (com.reefsnax.cobblemonflexiblestarters.StarterSelectionRules.Group group : Config.groups()) {
+        for (dev.sharkwire.cobblemonflexiblestarters.StarterSelectionRules.Group group : Config.groups()) {
             if (!group.enabled()) continue;
             if (hasEnabledGroup) limits.append(", ");
             limits.append(StarterSelectionState.groupLabel(group)).append(" (")

@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters;
+package dev.sharkwire.cobblemonflexiblestarters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreTypes
 import com.cobblemon.mod.common.config.starter.StarterCategory;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 
-import com.reefsnax.cobblemonflexiblestarters.net.SelectStartersPacket;
+import dev.sharkwire.cobblemonflexiblestarters.net.SelectStartersPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;

@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters.client;
+package dev.sharkwire.cobblemonflexiblestarters.client;
 
 import java.util.List;
 import java.util.function.Supplier;

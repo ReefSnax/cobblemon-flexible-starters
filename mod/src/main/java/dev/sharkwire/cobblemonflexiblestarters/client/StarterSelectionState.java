@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters.client;
+package dev.sharkwire.cobblemonflexiblestarters.client;
 
 import java.util.List;
 import java.util.Locale;
@@ -9,9 +9,9 @@ import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory;
 import com.cobblemon.mod.common.pokemon.RenderablePokemon;
 
-import com.reefsnax.cobblemonflexiblestarters.Config;
-import com.reefsnax.cobblemonflexiblestarters.StarterSelectionRules.DuplicateIdentityMode;
-import com.reefsnax.cobblemonflexiblestarters.StarterSelectionRules.Group;
+import dev.sharkwire.cobblemonflexiblestarters.Config;
+import dev.sharkwire.cobblemonflexiblestarters.StarterSelectionRules.DuplicateIdentityMode;
+import dev.sharkwire.cobblemonflexiblestarters.StarterSelectionRules.Group;
 
 /**
  * A small client-only mirror of the starter tray for native category-list rendering.

@@ -1,8 +1,8 @@
-package com.reefsnax.cobblemonflexiblestarters;
+package dev.sharkwire.cobblemonflexiblestarters;
 
 import com.mojang.logging.LogUtils;
-import com.reefsnax.cobblemonflexiblestarters.client.ClientPayloads;
-import com.reefsnax.cobblemonflexiblestarters.net.SelectStartersPacket;
+import dev.sharkwire.cobblemonflexiblestarters.client.ClientPayloads;
+import dev.sharkwire.cobblemonflexiblestarters.net.SelectStartersPacket;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;

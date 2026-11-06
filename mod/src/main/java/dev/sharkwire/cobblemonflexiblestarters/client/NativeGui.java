@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters.client;
+package dev.sharkwire.cobblemonflexiblestarters.client;
 
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.client.render.RenderHelperKt;

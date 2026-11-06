@@ -1,9 +1,9 @@
-package com.reefsnax.cobblemonflexiblestarters.net;
+package dev.sharkwire.cobblemonflexiblestarters.net;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.reefsnax.cobblemonflexiblestarters.CobblemonFlexibleStarters;
+import dev.sharkwire.cobblemonflexiblestarters.CobblemonFlexibleStarters;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

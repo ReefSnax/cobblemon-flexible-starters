@@ -1,11 +1,11 @@
-package com.reefsnax.cobblemonflexiblestarters.mixin.client;
+package dev.sharkwire.cobblemonflexiblestarters.mixin.client;
 
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen;
 import com.cobblemon.mod.common.client.gui.startselection.widgets.CategoryList;
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory;
 
-import com.reefsnax.cobblemonflexiblestarters.client.StarterSelectionState;
+import dev.sharkwire.cobblemonflexiblestarters.client.StarterSelectionState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;

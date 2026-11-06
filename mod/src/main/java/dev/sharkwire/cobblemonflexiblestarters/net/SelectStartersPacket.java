@@ -1,9 +1,9 @@
-package com.reefsnax.cobblemonflexiblestarters.net;
+package dev.sharkwire.cobblemonflexiblestarters.net;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.reefsnax.cobblemonflexiblestarters.CobblemonFlexibleStarters;
+import dev.sharkwire.cobblemonflexiblestarters.CobblemonFlexibleStarters;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
  * <p>The list is hard-capped at {@link #MAX_PICKS} entries at the codec level, so a malformed or
  * hostile payload claiming a larger count is rejected during decode rather than ever reaching
  * handler logic. The server additionally verifies the list size matches the configured
- * {@link com.reefsnax.cobblemonflexiblestarters.Config#starterCount()} before granting anything.</p>
+ * {@link dev.sharkwire.cobblemonflexiblestarters.Config#starterCount()} before granting anything.</p>
  */
 public record SelectStartersPacket(List<Pick> picks) implements CustomPacketPayload {
 

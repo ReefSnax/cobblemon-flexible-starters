@@ -1,4 +1,4 @@
-package com.reefsnax.cobblemonflexiblestarters;
+package dev.sharkwire.cobblemonflexiblestarters;
 
 import java.util.ArrayList;
 import java.util.List;
