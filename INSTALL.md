@@ -10,14 +10,14 @@ Choose a configurable team of starters from Cobblemon's native-style starter scr
 | Java | 21 |
 | NeoForge | 21.1.265 |
 | Cobblemon (NeoForge) | 1.8.4 |
-| Cobblemon Flexible Starters | 0.3.0 |
+| Cobblemon Flexible Starters | 1.0.0 |
 
 The add-on is required on both the client and server. It is a separate mod; do not modify or bundle Cobblemon.
 
 ## Install
 
 1. Ensure the client and dedicated server use matching Minecraft, NeoForge, and Cobblemon versions.
-2. Put `cobblemon-flexible-starters-0.3.0.jar` in each side's `mods/` directory.
+2. Put `cobblemon-flexible-starters-1.0.0.jar` in each side's `mods/` directory.
 3. Do not retain older `cobblemon-flexible-starters-*.jar` builds alongside it; only one copy of the mod should be installed.
 4. Fully restart the server and clients.
 

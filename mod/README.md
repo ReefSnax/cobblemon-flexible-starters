@@ -68,7 +68,7 @@ cd mod
 bash ./gradlew clean build --no-daemon --no-build-cache
 ```
 
-The built JAR is written to `mod/build/libs/cobblemon-flexible-starters-0.3.0.jar`.
+The built JAR is written to `mod/build/libs/cobblemon-flexible-starters-1.0.0.jar`.
 
 ## Project status
 
