@@ -1,4 +1,4 @@
-package games.finn.cobblemonflexiblestarters.client;
+package com.reefsnax.cobblemonflexiblestarters.client;
 
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.client.render.RenderHelperKt;

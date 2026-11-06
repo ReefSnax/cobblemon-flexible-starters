@@ -1,12 +1,12 @@
-package games.finn.cobblemonflexiblestarters;
+package com.reefsnax.cobblemonflexiblestarters;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import games.finn.cobblemonflexiblestarters.StarterSelectionRules.DuplicateIdentityMode;
-import games.finn.cobblemonflexiblestarters.StarterSelectionRules.Group;
+import com.reefsnax.cobblemonflexiblestarters.StarterSelectionRules.DuplicateIdentityMode;
+import com.reefsnax.cobblemonflexiblestarters.StarterSelectionRules.Group;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**

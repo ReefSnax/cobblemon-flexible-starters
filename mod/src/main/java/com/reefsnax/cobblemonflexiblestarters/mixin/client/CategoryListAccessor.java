@@ -1,4 +1,4 @@
-package games.finn.cobblemonflexiblestarters.mixin.client;
+package com.reefsnax.cobblemonflexiblestarters.mixin.client;
 
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen;
 import com.cobblemon.mod.common.client.gui.startselection.widgets.CategoryList;

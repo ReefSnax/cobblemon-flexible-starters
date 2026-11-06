@@ -1,4 +1,4 @@
-package games.finn.cobblemonflexiblestarters.mixin.client;
+package com.reefsnax.cobblemonflexiblestarters.mixin.client;
 
 import java.util.List;
 

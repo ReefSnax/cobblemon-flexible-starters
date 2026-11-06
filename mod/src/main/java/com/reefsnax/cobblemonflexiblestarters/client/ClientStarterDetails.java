@@ -1,9 +1,9 @@
-package games.finn.cobblemonflexiblestarters.client;
+package com.reefsnax.cobblemonflexiblestarters.client;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import games.finn.cobblemonflexiblestarters.net.StarterDetailsPacket;
+import com.reefsnax.cobblemonflexiblestarters.net.StarterDetailsPacket;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**

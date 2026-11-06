@@ -1,4 +1,4 @@
-package games.finn.cobblemonflexiblestarters;
+package com.reefsnax.cobblemonflexiblestarters;
 
 import java.util.ArrayList;
 import java.util.List;
