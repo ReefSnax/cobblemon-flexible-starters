@@ -39,15 +39,15 @@ displayName="${mod_name}" #mandatory
 #logoFile="examplemod.png" #optional
 
 # A text field displayed in the mod UI
-#credits="" #optional
+credits="Sharkwire"
 
 # The authors of the mod, displayed in the mod UI (optional)
-#authors=""
+authors="Snaxine Reefica"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-A Cobblemon add-on: brand-new players pick several starter Pokemon at once (server-configurable
-count, 1-6, default 2) from the normal starter flow.
+Enhances the starter selection with additional options. Let trainers start with up to six Pokemon,
+and enforce dynamic limits for selection choices.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.

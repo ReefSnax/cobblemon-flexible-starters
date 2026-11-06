@@ -73,3 +73,7 @@ The built JAR is written to `mod/build/libs/cobblemon-flexible-starters-1.0.0.ja
 ## Project status
 
 **Cobblemon Flexible Starters** is an independently designed and maintained project. The general idea of multi-starter selection was an early inspiration; this add-on's native-screen augmentation, server-authoritative selection protocol, configuration flow, and UI implementation are its own work.
+
+## License
+
+Cobblemon Flexible Starters is distributed under the [Sharkwire Community Server License 1.0](../LICENSE). It permits use of unmodified official releases on free-to-access servers, including servers supported by optional donations and cosmetic-only perks. It permits unchanged binaries in no-cost qualifying server modpacks with this license and attribution. It does not permit paid access, gameplay-affecting paid perks, forks, or modified releases. The mod is provided **AS IS**, without warranty.
