@@ -76,6 +76,6 @@ The setting is clamped to 1–6 and synchronized to joining clients. Restart the
 
 The server rejects malformed, over-limit, replayed, or no-longer-valid selections.
 
-## Acknowledgments
+## Project status
 
-Cobblemon Flexible Starters is independently maintained. [erichexter/dualstarters](https://github.com/erichexter/dualstarters) provided initial inspiration; this repository is not maintained as a fork.
+Cobblemon Flexible Starters is an independently designed and maintained project. The general idea of multi-starter selection was an early inspiration; this add-on's native-screen integration, configuration system, server-side validation, and UI are its own work.

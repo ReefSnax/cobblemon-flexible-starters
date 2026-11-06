@@ -70,6 +70,6 @@ bash ./gradlew clean build --no-daemon --no-build-cache
 
 The built JAR is written to `mod/build/libs/cobblemon-flexible-starters-0.3.0.jar`.
 
-## Acknowledgments
+## Project status
 
-This project began with inspiration from [erichexter/dualstarters](https://github.com/erichexter/dualstarters). It is now maintained independently as **Cobblemon Flexible Starters**, with its own native-screen augmentation, server-authoritative selection protocol, configuration flow, and UI implementation.
+**Cobblemon Flexible Starters** is an independently designed and maintained project. The general idea of multi-starter selection was an early inspiration; this add-on's native-screen augmentation, server-authoritative selection protocol, configuration flow, and UI implementation are its own work.
